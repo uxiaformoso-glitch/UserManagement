@@ -21,6 +21,13 @@ class UserManagement {
             return false;
         }
 
+        //Ensure name only has letters and spaces
+        const nameRegEx = /^[A-Za-zÁÉÍÓÚÀÈÌÒÙáéíóúàèìòùÄËÏÖÜäëïöüÑñÇç ]+$/;
+        if (!nameRegEx.test(name)) {
+            alert("El nombre tiene caracteres no permitidos");
+            return false;
+        }
+
         const newUser = new User(name, email);
         this.users.push(newUser);
         this.saveOnLocalStorage();
@@ -62,6 +69,11 @@ function renderList() {
     });
 }
 
+//Filter to block numbers and symbols when typing
+inputName.addEventListener('input', (e) => {
+    e.target.value = e.target.value.replace(/[^A-Za-zÁÉÍÓÚÀÈÌÒÙáéíóúàèìòùÄËÏÖÜäëïöüÑñÇç ]/g, '');
+});
+
 //Event add user
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -74,6 +86,7 @@ form.addEventListener('submit', (e) => {
     if (exit) {
         //Clear inputs
         form.reset();
+
         //Update list visually
         renderList();
     }
